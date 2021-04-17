@@ -1,0 +1,168 @@
+name: "[NPM Package] - Apollo Server Fastify (master)"
+
+on:
+  push:
+    branches:
+      - master
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GIT_REPO: ${{ github.event.repository.name }}
+
+jobs:
+
+  # Slack build start notification job
+  slack-build-start:
+    name: Slack - Build Start
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Slack - Start notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          custom_payload: |
+            {
+              text: "Build started :rocket:",
+              attachments: [{
+                fallback: 'fallback',
+                color: '#235668',
+                title: '${{ github.workflow }}',
+                text: '',
+                fields: [{
+                  title: '',
+                  value: '<https://github.com/swoopin-green/${{ env.GIT_REPO }}/commit/${{ github.sha }}/checks|See build progress>',
+                  short: true
+                }],
+                actions: [{
+                }]
+              }]
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  # Build and publish
+  build-and-publish:
+    name: Build And Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy
+        run: ls -la ~
+
+#
+#          deploy:
+#            <<: *defaults
+#            steps:
+#              - attach_workspace:
+#                  at: ~/repo
+#              - run:
+#                  name: Authenticate with registry
+#                  command: echo -e "//npm.pkg.github.com/:_authToken=$GIT_TOKEN\nregistry=https://npm.pkg.github.com/swoopin-green" > ~/repo/dist/packages/gatsby-plugin/.npmrc
+#              - run:
+#                  name: Publish package
+#                  command: cd dist/packages/gatsby-plugin && npm publish
+#
+
+  # Slack notification job based on pipeline result
+  slack-notification:
+    name: Slack - Final notification
+    needs: build-and-publish
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Github Actions - Retrieve conclusion state
+        uses: technote-space/workflow-conclusion-action@v1
+
+      - name: Slack - Notify on failure
+        uses: 8398a7/action-slack@v3
+        if: env.WORKFLOW_CONCLUSION == 'failure'
+        with:
+          status: custom
+          custom_payload: |
+            {
+              text: "Build ${{ env.WORKFLOW_CONCLUSION }} :broken_heart:",
+              attachments: [{
+                fallback: 'fallback',
+                color: '#FF0000',
+                title: '${{ github.workflow }}',
+                text: '',
+                fields: [{
+                  title: '',
+                  value: '<https://github.com/swoopin-green/${{ env.GIT_REPO }}/commit/${{ github.sha }}/checks|See build result>',
+                  short: true
+                }],
+                actions: [{
+                }]
+              }]
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Slack - Notify on success
+        uses: 8398a7/action-slack@v3
+        if: env.WORKFLOW_CONCLUSION == 'success'
+        with:
+          status: custom
+          custom_payload: |
+            {
+              text: "Build ${{ env.WORKFLOW_CONCLUSION }} :heavy_check_mark:",
+              attachments: [{
+                fallback: 'fallback',
+                color: '#008000',
+                title: '${{ github.workflow }}',
+                text: '',
+                fields: [{
+                  title: '',
+                  value: '<https://github.com/swoopin-green/${{ env.GIT_REPO }}/commit/${{ github.sha }}/checks|See build result>',
+                  short: true
+                }],
+                actions: [{
+                }]
+              }]
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Slack - Notify on cancelled
+        uses: 8398a7/action-slack@v3
+        if: env.WORKFLOW_CONCLUSION == 'cancelled'
+        with:
+          status: custom
+          custom_payload: |
+            {
+              text: "Build ${{ env.WORKFLOW_CONCLUSION }} :chicken:",
+              attachments: [{
+                fallback: 'fallback',
+                color: '#D3D3D3',
+                title: '${{ github.workflow }}',
+                text: '',
+                fields: [{
+                  title: '',
+                  value: '<https://github.com/swoopin-green/${{ env.GIT_REPO }}/commit/${{ github.sha }}/checks|See build result>',
+                  short: true
+                }],
+                actions: [{
+                }]
+              }]
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
