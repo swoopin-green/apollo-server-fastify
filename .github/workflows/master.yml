@@ -70,7 +70,7 @@ jobs:
         #run: echo -e "//npm.pkg.github.com/:_authToken=$GIT_TOKEN\nregistry=https://npm.pkg.github.com/swoopin-green" > ~/repo/dist/packages/gatsby-plugin/.npmrc
 
       - name: Deploy
-        run: cd dist/packages/apollo-server-fastify && npm publish
+        run: cd dist/apollo-server-fastify && npm publish
 
 
 #
