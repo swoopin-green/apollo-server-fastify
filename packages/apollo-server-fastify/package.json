@@ -4,7 +4,7 @@
   "description": "Forked Appollo server Fastify to support multipart with Fastify 3.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/swoopin-green/nx-gatsby-plugin"
+    "url": "git+https://github.com/swoopin-green/apollo-server-fastify"
   },
   "keywords": [
     "GraphQL",
