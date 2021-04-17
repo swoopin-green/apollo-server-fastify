@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-echo "Publishing gatsby-plugin@$1"
+echo "Publishing apollo-server-fastify@$1"
 
-nx build gatsby-plugin
-cd dist/packages/gatsby-plugin
+nx build apollo-server-fastify
+cd dist/apollo-server-fastify
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i "" "s|0.0.1|$1|g" package.json

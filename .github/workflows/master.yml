@@ -63,7 +63,7 @@ jobs:
         run: npm run build
 
       - name: Authenticate with registry
-        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.GIT_TOKEN }}\nregistry=https://npm.pkg.github.com/swoopin-green" > .npmrc
+        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.GIT_TOKEN }}\nregistry=https://npm.pkg.github.com/swoopin-green" > dist/apollo-server-fastify/.npmrc
         #run: echo -e "//npm.pkg.github.com/:_authToken=$GIT_TOKEN\nregistry=https://npm.pkg.github.com/swoopin-green" > ~/repo/dist/packages/gatsby-plugin/.npmrc
 
       - name: Test
