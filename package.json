@@ -1,7 +1,7 @@
 {
   "name": "apollo-server-fastify",
   "description": "Forked Appollo server Fastify to support multipart with Fastify 3.0",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "nx": "nx",

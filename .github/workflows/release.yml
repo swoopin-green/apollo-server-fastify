@@ -62,8 +62,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Authenticate with registry
+        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.GIT_TOKEN }}\nregistry=https://npm.pkg.github.com/swoopin-green" > dist/apollo-server-fastify/.npmrc
+
       - name: Deploy
-        run: ls -la ~
+        run: cd dist/apollo-server-fastify && npm publish
 
   # Slack notification job based on pipeline result
   slack-notification:

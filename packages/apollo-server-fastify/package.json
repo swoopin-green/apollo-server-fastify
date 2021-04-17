@@ -1,6 +1,6 @@
 {
   "name": "@swoopin-green/apollo-server-fastify",
-  "version": "1.0.0",
+  "version": "3.0.0-alpha.3",
   "description": "Forked Appollo server Fastify to support multipart with Fastify 3.0",
   "repository": {
     "type": "git",
