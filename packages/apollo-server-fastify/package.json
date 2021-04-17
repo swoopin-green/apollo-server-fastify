@@ -1,0 +1,28 @@
+{
+  "name": "@swoopin-green/apollo-server-fastify",
+  "version": "1.0.0",
+  "description": "Forked Appollo server Fastify to support multipart with Fastify 3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swoopin-green/nx-gatsby-plugin"
+  },
+  "keywords": [
+    "GraphQL",
+    "Apollo",
+    "Fastify"
+  ],
+  "author": "Apollo <opensource@apollographql.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apollographql/apollo-server/issues"
+  },
+  "homepage": "https://github.com/apollographql/apollo-server#readme",
+  "schematics": "./collection.json",
+  "builders": "./builders.json",
+  "peerDependencies": {
+    "@nrwl/workspace": "10.3.2"
+  },
+  "dependencies": {
+    "@nrwl/jest": "10.3.2"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "npmScope": "nrwl",
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tslint.json": "*",
+    "nx.json": "*",
+    "tsconfig.base.json": "*"
+  },
+  "workspaceLayout": {
+    "appsDir": "packages",
+    "lisDir": "packages"
+  },
+  "projects": {
+    "apollo-server-fastify": {
+      "tags": []
+    }
+  },
+
+  "affected": {
+    "defaultBase": "master"
+  }
+}
