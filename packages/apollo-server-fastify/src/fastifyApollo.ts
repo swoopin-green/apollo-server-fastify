@@ -25,7 +25,7 @@ export async function graphqlFastify(
       if ((request.isMultipart())) {
         try {
 
-          console.info("MULTIPART !")
+          console.info("MULTIPART FROM VINZ !")
 
 
 
