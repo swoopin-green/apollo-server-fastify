@@ -39,7 +39,7 @@ jobs:
               }]
             }
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+#          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   # Build and publish
@@ -62,8 +62,16 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Test
+        run: ls -la dist
+
+      - name: Authenticate with registry
+        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.GIT_TOKEN }}\nregistry=https://npm.pkg.github.com/swoopin-green" > .npmrc
+        #run: echo -e "//npm.pkg.github.com/:_authToken=$GIT_TOKEN\nregistry=https://npm.pkg.github.com/swoopin-green" > ~/repo/dist/packages/gatsby-plugin/.npmrc
+
       - name: Deploy
-        run: ls -la ~
+        run: cd dist/packages/apollo-server-fastify && npm publish
+
 
 #
 #          deploy:
@@ -112,7 +120,7 @@ jobs:
               }]
             }
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+#          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Slack - Notify on success
@@ -164,5 +172,5 @@ jobs:
               }]
             }
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+#          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
